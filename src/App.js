@@ -9,6 +9,8 @@ import {
   MotionValue,
 } from "framer-motion";
 import Nav from "./Nav";
+import Slideshow from "./Slideshow";
+import Square from "./Square";
 import { text } from "./randomText";
 import Modal from "./Modal";
 import Accordion from "./Accordion";
@@ -45,6 +47,8 @@ function App() {
         <Nav isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
       </Header>
       <Container>
+        <Slideshow />
+        <Square />
         <motion.h2 initial={{ x: 0 }} animate={{ x: value + "px" }}>
           Super Cool
         </motion.h2>
