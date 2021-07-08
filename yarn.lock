@@ -4763,10 +4763,10 @@
   dependencies:
     "map-cache" "^0.2.2"
 
-"framer-motion@^1.8.4":
-  "integrity" "sha512-MMtJ3m0UpSb+val+aL8snz57p47LJS8lBSzvybhXjJgQHpufTZEzbp62eXNVdBlCHnC02J5+NmHRz4AAN6J9Qg=="
-  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-1.8.4.tgz"
-  "version" "1.8.4"
+"framer-motion@^1.11.1":
+  "integrity" "sha512-CP6aYLPSivAWkq9UoSurefHBggxG85IT8ObYyWYkcZppgtjHzpwRzhaA8P0ljMGRqtcpeQAIybiGgPioBPlOSw=="
+  "resolved" "https://registry.npmjs.org/framer-motion/-/framer-motion-1.11.1.tgz"
+  "version" "1.11.1"
   dependencies:
     "@popmotion/easing" "^1.0.2"
     "@popmotion/popcorn" "^0.4.2"
