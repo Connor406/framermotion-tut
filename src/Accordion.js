@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const variants = {
+  opened: { opacity: 1, height: "auto" },
+  closed: { opacity: 0, height: 0 },
+};
+
 function Accordion({ title, children }) {
   const [isToggled, setIsToggled] = useState(false);
   return (
@@ -11,9 +16,10 @@ function Accordion({ title, children }) {
       <AnimatePresence>
         {isToggled && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            variants={variants}
+            initial="closed"
+            animate="opened"
+            exit="closed"
             style={{ overflow: "hidden" }}
           >
             <p>{children}</p>

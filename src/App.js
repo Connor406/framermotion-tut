@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Card, CardGrid, Container, Header } from "./Elements";
 import "./App.css";
 import { motion, AnimatePresence } from "framer-motion";
+import Nav from "./Nav";
 import { text } from "./randomText";
 import Modal from "./Modal";
 import Accordion from "./Accordion";
@@ -13,6 +14,7 @@ import green from "./green.png";
 
 function App() {
   const [value, setValue] = useState(0);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const [isToggled, setIsToggled] = useState(false);
 
   return (
@@ -28,11 +30,14 @@ function App() {
       }}
     >
       <Header>
-        <Menu />
-        <h1>Header</h1>
+        <Menu onClick={() => setIsNavOpen(true)} />
+        <h1 style={{ zIndex: 0 }}>Header</h1>
+        <Nav isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
       </Header>
       <Container>
-        <h2>Super Cool</h2>
+        <motion.h2 initial={{ x: 0 }} animate={{ x: value + "px" }}>
+          Super Cool
+        </motion.h2>
         <button onClick={() => setIsToggled(true)}>button</button>
         <input
           type="range"
