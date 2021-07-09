@@ -13,7 +13,6 @@ const variants = {
     x: 0,
   },
   exit: (direction) => {
-    console.log("direction: ", direction);
     return {
       opacity: 0,
       x: direction > 0 ? -1000 : 1000,
@@ -64,6 +63,15 @@ function Slideshow() {
           initial="enter"
         />
       </AnimatePresence>
+      <div
+        style={{
+          zIndex: 10,
+          position: "relative",
+        }}
+      >
+        <button onClick={() => paginate(-1)}>{"<"}</button>
+        <button onClick={() => paginate(1)}>{">"}</button>
+      </div>
     </div>
   );
 }

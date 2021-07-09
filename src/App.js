@@ -1,43 +1,37 @@
+import { motion } from "framer-motion";
 import React, { useState } from "react";
-import { CardGrid, Container, Header } from "./Elements";
-import "./App.css";
 import {
-  motion,
-  AnimatePresence,
-  useMotionValue,
-  useTransform,
-  MotionValue,
-} from "framer-motion";
-import Nav from "./Nav";
-import Card from "./Card";
-import Slideshow from "./Slideshow";
+  BrowserRouter,
+  Route,
+  Switch,
+  Link,
+  useLocation,
+} from "react-router-dom";
+import About from "./AboutPage";
+import "./App.css";
 import CARDS from "./cardArray";
-import Square from "./Square";
-import { text } from "./randomText";
-import Modal from "./Modal";
-import Accordion from "./Accordion";
+import { Container, Header } from "./Elements";
+import HomePage from "./HomePage";
 import Menu from "./Menu";
-import blue from "./blue.png";
-import purp from "./purp.png";
-import black from "./black.png";
-import green from "./green.png";
+import Nav from "./Nav";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const [value, setValue] = useState(0);
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [isCardActive, setIsCardActive] = useState(
-    new Array(CARDS.length).fill(true)
-  );
-  const [isToggled, setIsToggled] = useState(false);
+  const location = useLocation();
+  console.log(location);
 
-  console.log(isCardActive);
+  // const [isCardActive, setIsCardActive] = useState(
+  //   new Array(CARDS.length).fill(true)
+  // );
+  // const [isToggled, setIsToggled] = useState(false);
 
-  const handleCardRemove = (id) => {
-    console.log(id);
-    const newIds = isCardActive.slice();
-    newIds[id] = false;
-    setIsCardActive(newIds);
-  };
+  // const handleCardRemove = (id) => {
+  //   const newIds = isCardActive.slice();
+  //   newIds[id] = false;
+  //   setIsCardActive(newIds);
+  // };
 
   return (
     <motion.div
@@ -55,29 +49,34 @@ function App() {
         <Menu onClick={() => setIsNavOpen(true)} />
         <h1>Header</h1>
         <Nav isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
       </Header>
       <Container>
-        {/* <Slideshow /> */}
-        <Square />
-        <motion.h2 initial={{ x: 0 }} animate={{ x: value + "px" }}>
-          Super Cool
-        </motion.h2>
-        <button onClick={() => setIsToggled(true)}>button</button>
-        <input
-          type="range"
-          min="-100"
-          max="100"
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-        ></input>
-        <Modal isToggled={isToggled} setIsToggled={setIsToggled}>
-          <Card style={{ background: CARDS[0].bgColor }}>
-            <h3>Some card</h3>
-            <img src={CARDS[0].imgSrc} />
-          </Card>
-        </Modal>
-        <Accordion children={text} title={"Click this bad boy"} />
-        <CardGrid>
+        <AnimatePresence exitBeforeEnter>
+          <Switch location={location} key={location.pathname}>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/about" component={About} />
+          </Switch>
+        </AnimatePresence>
+      </Container>
+    </motion.div>
+  );
+}
+
+const AppWrapper = () => {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  );
+};
+
+export default AppWrapper;
+
+// Holding on to this until later vids to see how my code compares
+
+/* <CardGrid>
           <AnimatePresence>
             {CARDS.map(({ id, bgColor, title, imgSrc }) => (
               <>
@@ -102,10 +101,4 @@ function App() {
               </>
             ))}
           </AnimatePresence>
-        </CardGrid>
-      </Container>
-    </motion.div>
-  );
-}
-
-export default App;
+        </CardGrid> */
