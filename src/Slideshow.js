@@ -4,17 +4,20 @@ import { COLORS } from "./Square";
 import { wrap } from "@popmotion/popcorn";
 
 const variants = {
-  enter: {
+  enter: (direction) => ({
+    x: direction > 0 ? 1000 : -1000,
     opacity: 0,
-    x: 1000,
-  },
+  }),
   center: {
     opacity: 1,
     x: 0,
   },
-  exit: {
-    opacity: 0,
-    x: -1000,
+  exit: (direction) => {
+    console.log("direction: ", direction);
+    return {
+      opacity: 0,
+      x: direction > 0 ? -1000 : 1000,
+    };
   },
 };
 
@@ -29,9 +32,11 @@ function Slideshow() {
 
   return (
     <div style={{ position: "relative" }}>
-      <AnimatePresence>
+      <AnimatePresence custom={direction}>
         <motion.div
+          transition={{ duration: 0.4 }}
           key={page}
+          custom={direction}
           drag="x"
           dragConstraints={{
             left: 0,
@@ -39,11 +44,10 @@ function Slideshow() {
           }}
           dragElastic={0.7}
           onDragEnd={(e, { offset, velocity }) => {
-            console.log(offset.x);
             if (offset.x > 400) {
-              paginate(1);
-            } else if (offset.x < -400) {
               paginate(-1);
+            } else if (offset.x < -400) {
+              paginate(1);
             }
           }}
           style={{

@@ -26,12 +26,12 @@ export const Container = styled.div`
 
 export const CardGrid = styled.div`
   display: grid;
-  grid-gap: 20px;
 `;
 
-export const Card = styled(motion.div)`
+export const StyledCard = styled(motion.div)`
   border-radius: 15px;
   padding: 20px;
+  margin: 20px;
   color: white;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4);
   h3 {

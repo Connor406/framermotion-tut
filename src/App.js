@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, CardGrid, Container, Header } from "./Elements";
+import { CardGrid, Container, Header } from "./Elements";
 import "./App.css";
 import {
   motion,
@@ -9,7 +9,9 @@ import {
   MotionValue,
 } from "framer-motion";
 import Nav from "./Nav";
+import Card from "./Card";
 import Slideshow from "./Slideshow";
+import CARDS from "./cardArray";
 import Square from "./Square";
 import { text } from "./randomText";
 import Modal from "./Modal";
@@ -23,11 +25,19 @@ import green from "./green.png";
 function App() {
   const [value, setValue] = useState(0);
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [isCardActive, setIsCardActive] = useState(true);
+  const [isCardActive, setIsCardActive] = useState(
+    new Array(CARDS.length).fill(true)
+  );
   const [isToggled, setIsToggled] = useState(false);
 
-  const x = useMotionValue(0);
-  const opacity = useTransform(x, [-200, 0, 200], [0, 1, 0]);
+  console.log(isCardActive);
+
+  const handleCardRemove = (id) => {
+    console.log(id);
+    const newIds = isCardActive.slice();
+    newIds[id] = false;
+    setIsCardActive(newIds);
+  };
 
   return (
     <motion.div
@@ -47,7 +57,7 @@ function App() {
         <Nav isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
       </Header>
       <Container>
-        <Slideshow />
+        {/* <Slideshow /> */}
         <Square />
         <motion.h2 initial={{ x: 0 }} animate={{ x: value + "px" }}>
           Super Cool
@@ -61,74 +71,37 @@ function App() {
           value={value}
         ></input>
         <Modal isToggled={isToggled} setIsToggled={setIsToggled}>
-          <Card style={{ background: "var(--purp)" }}>
+          <Card style={{ background: CARDS[0].bgColor }}>
             <h3>Some card</h3>
-            <img src={purp} />
+            <img src={CARDS[0].imgSrc} />
           </Card>
         </Modal>
         <Accordion children={text} title={"Click this bad boy"} />
         <CardGrid>
-          <Card
-            // whileHover={{
-            //   scale: [1, 1.04, 1.02],
-            //   transition: { duration: 0.2 },
-            //   times: [0, 0.8, 1],
-            // }}
-            // whileTap={{ background: "var(--red)" }}
-            drag
-            dragConstraints={{
-              top: -100,
-              left: -100,
-              bottom: 100,
-              right: 100,
-            }}
-            style={{ background: "var(--purp)" }}
-          >
-            <h3>Some card</h3>
-            <img src={purp} />
-          </Card>
           <AnimatePresence>
-            {isCardActive && (
-              <motion.div
-                exit={{ height: 0, opacity: 0 }}
-                transition={{
-                  opacity: {
-                    duration: 0,
-                  },
-                }}
-              >
-                <Card
-                  drag="x"
-                  onDragEnd={(event, info) => {
-                    console.log(info.point.x);
-                    if (Math.abs(info.point.x) > 150) {
-                      setIsCardActive(false);
-                    }
-                  }}
-                  dragConstraints={{
-                    left: 0,
-                    right: 0,
-                  }}
-                  style={{
-                    x,
-                    opacity,
-                    background: "var(--blue)",
-                  }}
-                >
-                  <h3>Some card</h3>
-                  <img src={blue} />
-                </Card>
-              </motion.div>
-            )}
+            {CARDS.map(({ id, bgColor, title, imgSrc }) => (
+              <>
+                {isCardActive[id] && (
+                  <motion.div
+                    key={id}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{
+                      opacity: {
+                        duration: 0,
+                      },
+                    }}
+                  >
+                    <Card
+                      bgColor={bgColor}
+                      setIsCardActive={() => handleCardRemove(id)}
+                      title={title}
+                      imgSrc={imgSrc}
+                    />
+                  </motion.div>
+                )}
+              </>
+            ))}
           </AnimatePresence>
-          <Card style={{ background: "var(--black)" }}>
-            <h3>Some card</h3>
-            <img src={black} />
-          </Card>
-          <Card style={{ background: "var(--green)" }}>
-            <h3>Some card</h3>
-            <img src={green} />
-          </Card>
         </CardGrid>
       </Container>
     </motion.div>

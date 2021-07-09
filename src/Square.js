@@ -15,9 +15,16 @@ function Square() {
   return (
     <div>
       <button onClick={() => setColorList(shuffle(colorList))}>Shuffle</button>
-      {colorList.map((color) => (
+      {colorList.map((color, idx) => (
         <motion.div
-          key={color}
+          drag
+          dragConstraints={{
+            top: -20,
+            bottom: 20,
+            left: -20,
+            right: 20,
+          }}
+          key={idx}
           positionTransition={{
             damping: 20,
             stiffness: 250,
@@ -29,7 +36,7 @@ function Square() {
             width: 100,
           }}
         >
-          {" "}
+          {idx}
         </motion.div>
       ))}
     </div>
